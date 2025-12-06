@@ -5,8 +5,6 @@ import java.util.List;
 
 public class Day1 {
 
-    private static final int MIN = 0;
-    private static final int MAX = 99;
     private static final int START_POS = 50;
 
     public static void main(String[] args) throws Exception {
@@ -15,20 +13,18 @@ public class Day1 {
         int pos = START_POS;
         int onZero = 0;
         for (String rotation : rotations) {
+            // Parsing
             char direction = rotation.charAt(0);
             int clicks = Integer.parseInt(rotation.substring(1));
-            int move = 'R' == direction ? clicks : -clicks;
+            int factor = 'R' == direction ? 1 : -1;
 
-            pos += move;
-            while (pos > MAX) {
-                pos = pos - (MAX + 1);
-            }
-            while (pos < MIN) {
-                pos = pos + (MAX + 1);
-            }
-
-            if (pos == 0) {
-                onZero++;
+            // Use individual clicks out of desperation
+            while (clicks > 0) {
+                pos = (pos + factor) % 100;
+                if (pos == 0) {
+                    onZero++;
+                }
+                clicks--;
             }
         }
         System.out.println("On zero: " + onZero);
